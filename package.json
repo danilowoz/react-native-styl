@@ -3,21 +3,21 @@
   "version": "0.0.1",
   "description": "",
   "author": "Danilo Woznica <danilowoz@gmail.com>",
-  "main": "index.js",
+  "main": "build/index.js",
   "directories": {
     "example": "examples"
   },
   "scripts": {
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier \"src/**/*.+(ts|tsx|js|jsx|json|yml|yaml|md|mdx)\" --write",
-    "build": "tsc"
+    "build": "rm -rf ./build && tsc"
   },
   "license": "ISC",
   "devDependencies": {
-    "@types/react": "16.9.34",
-    "@types/react-native": "0.62.5",
     "@significa/eslint-config": "0.0.17",
     "@significa/prettier-config": "0.0.17",
-    "@significa/tsconfig-config": "0.0.17"
+    "@significa/tsconfig-config": "0.0.17",
+    "@types/react": "16.9.34",
+    "@types/react-native": "0.62.5"
   }
 }

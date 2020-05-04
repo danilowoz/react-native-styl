@@ -11,7 +11,7 @@
 import React from 'react'
 import { SafeAreaView, ScrollView, Text, View } from 'react-native'
 
-import { createStyle } from './lib/createStyle'
+import { createStyle } from '../lib/createStyle'
 import { ThemeA, ThemeB } from './theme'
 
 const WithoutTheme = createStyle(Text)({

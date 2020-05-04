@@ -1,3 +1,15 @@
 {
-  "extends": "./node_modules/@significa/tsconfig-config/index.json"
+  "extends": "./node_modules/@significa/tsconfig-config/index.json",
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "./build",
+    "declarationDir": "./build/types",
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "noEmit": false,
+    "sourceMap": true,
+    "target": "es5",
+    "isolatedModules": false
+  },
+  "exclude": ["node_modules", "examples"]
 }

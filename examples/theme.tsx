@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Provider } from './lib/createStyle'
+import { Provider } from '../lib/createStyle'
 
 const ThemeA: React.FC = ({ children }) => (
   <Provider theme={{ primary: 'blue' }}>{children}</Provider>

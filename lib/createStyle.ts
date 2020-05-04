@@ -1,11 +1,11 @@
 import React, {
-  ComponentType,
   ComponentPropsWithoutRef,
+  ComponentType,
+  createContext,
   createElement,
   CSSProperties,
   forwardRef,
   ReactNode,
-  createContext,
   useContext,
 } from 'react'
 
@@ -13,6 +13,14 @@ import React, {
  * * Types definition
  *
  * @internal
+ */
+
+/**
+ * For overlap `DefaultTheme` use:
+ *
+ * declare module 'create-style' {
+ *  export interface DefaultTheme extends MyCustomTheme {}
+ * }
  */
 type DefaultTheme = {}
 
@@ -78,17 +86,22 @@ const createStyle = <Comp extends ComponentType<any>>(Component: Comp) => <
   Props extends object = object
 >(
   stylesProp: Styles<Props>
-) =>
-  forwardRef<ThisType<Comp>, ForwardedProps<Comp, Props>>(
+) => {
+  return forwardRef<ThisType<Comp>, ForwardedProps<Comp, Props>>(
     function ForwardedComponent(props, ref) {
+      // Get theme from context
       const { theme } = useContext(Context)
+
+      // Spread props and inline styles
       const { style: inlineStyles = {}, ...restProps } = props
 
+      // Check type of argument
       const styles =
         typeof stylesProp === 'function'
           ? stylesProp({ props, theme })
           : stylesProp
 
+      // Create component
       return createElement(Component, {
         ...restProps,
         ref,
@@ -96,5 +109,6 @@ const createStyle = <Comp extends ComponentType<any>>(Component: Comp) => <
       })
     }
   )
+}
 
 export { createStyle, Provider }
