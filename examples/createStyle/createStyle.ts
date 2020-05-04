@@ -24,7 +24,6 @@ import React, {
  *  export interface DefaultTheme extends MyCustomTheme {}
  * }
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DefaultTheme = any
 
 type StylesWithTheme<Props> = (args: {

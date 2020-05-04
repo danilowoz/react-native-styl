@@ -4,13 +4,14 @@
   "description": "",
   "author": "Danilo Woznica <danilowoz@gmail.com>",
   "main": "build/index.js",
-  "directories": {
-    "example": "examples"
-  },
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier \"src/**/*.+(ts|tsx|js|jsx|json|yml|yaml|md|mdx)\" --write",
-    "build": "rm -rf ./build && tsc"
+    "dev": "npm run build && rm -rf ./examples/createStyle && cp -R ./lib ./examples/createStyle",
+    "build": "npm run build:clean && npm run build:ts",
+    "build:ts": "tsc",
+    "build:clean": "rm -rf ./build"
   },
   "license": "ISC",
   "devDependencies": {
