@@ -3,11 +3,11 @@ import React, {
   ComponentType,
   createContext,
   createElement,
-  CSSProperties,
   forwardRef,
   ReactNode,
   useContext,
 } from 'react'
+import { ViewStyle, TextStyle, ImageStyle } from 'react-native'
 
 /**
  * Types definition
@@ -27,12 +27,15 @@ import React, {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DefaultTheme = any
 
-type StylesWithTheme<Props> = (args: {
-  props: Props
-  theme: DefaultTheme
-}) => CSSProperties
+// Style
+type StyleProperties = ViewStyle | TextStyle | ImageStyle
 
-type Styles<Props> = StylesWithTheme<Props> | CSSProperties
+type StylesWithTheme<P> = (args: {
+  props: P
+  theme: DefaultTheme
+}) => StyleProperties
+
+type Styles<P> = StylesWithTheme<P> | StyleProperties
 
 type ForwardedProps<
   Comp extends ComponentType<unknown>,
@@ -92,7 +95,7 @@ const createStyle = <Comp extends ComponentType<any>>(Component: Comp) => <
 >(
   stylesProp: Styles<Props>
 ) => {
-  return forwardRef<ThisType<Comp>, ForwardedProps<Comp, Props>>(
+  return forwardRef<unknown, ForwardedProps<Comp, Props>>(
     function ForwardedComponent(props, ref) {
       // Get theme from context
       const { theme } = useContext(Context)
@@ -110,7 +113,7 @@ const createStyle = <Comp extends ComponentType<any>>(Component: Comp) => <
       return createElement(Component, {
         ...restProps,
         ref,
-        style: [styles, inlineStyles],
+        style: { ...styles, ...inlineStyles },
       })
     }
   )

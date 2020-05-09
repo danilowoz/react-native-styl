@@ -9,16 +9,31 @@
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier \"src/**/*.+(ts|tsx|js|jsx|json|yml|yaml|md|mdx)\" --write",
     "dev": "npm run build && rm -rf ./examples/createStyle && cp -R ./lib ./examples/createStyle",
+    "test": "jest lib",
     "build": "npm run build:clean && npm run build:ts",
     "build:ts": "tsc",
     "build:clean": "rm -rf ./build"
   },
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "7.9.6",
+    "@babel/preset-env": "7.9.6",
     "@significa/eslint-config": "0.0.17",
     "@significa/prettier-config": "0.0.17",
     "@significa/tsconfig-config": "0.0.17",
+    "@types/jest": "^25.2.1",
     "@types/react": "16.9.34",
-    "@types/react-native": "0.62.5"
+    "@types/react-native": "0.62.5",
+    "@types/react-test-renderer": "^16.9.2",
+    "babel-jest": "26.0.1",
+    "jest": "26.0.1",
+    "metro-react-native-babel-preset": "0.59.0",
+    "react": "^16.13.1",
+    "react-native": "0.62.2",
+    "react-test-renderer": "16.13.1"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-native": "^0.62.0"
   }
 }
