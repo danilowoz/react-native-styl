@@ -7,27 +7,27 @@
   <img src="https://badgen.net/bundlephobia/min/react-native-styl" alt="bundlephobia" />
 </h1>
 
-<p><strong><i>react-native-styl</i> is a micro-library for React Native developers</strong> whose goal is to write stylesheet with a non-opinionated library, free of dependencies, and in the easiest way possible.</p>
+<p><strong><i>react-native-styl</i> is a micro-library for React Native developers</strong> whose goal is to write stylesheets with a non-opinionated library, free of dependencies, and in the easiest way possible.</p>
 
 ---
 
 ### Motivation
 
-- **Keep the stylesheet simple:** the recommended approach to writing stylesheet in React Native still needs too much boilerplate and it's a pain to maintain; _styl_ provides a simple API where you'll be able to write the same stylesheet you've used to write so far in fewer lines of code;
-- **Performance:** no trick or magic is happening into the library, it just set the stylesheet (which can come from inline-style, the function argument or even props) to style prop in the component; and it provides one of the most performative ways to write the stylesheet in React Native;
-- **Versatility:** _styl_ uses the context API, which allows having fully supporting of theme, and share values throughout the application; also components can be easily extended and override styles whenever needed;
+- **Keep the stylesheet simple:** the recommended approach to writing stylesheets in React Native still needs too much boilerplate and it's a pain to maintain; _styl_ provides a simple API where you'll be able to write the same stylesheets you are used to – with fewer lines of code;
+- **Performance:** no magic or tricks here, _styl_ just maps the stylesheet (which can come from inline-style, the function argument or even props) to the style prop in the component: one of the most performative ways to write styles in React Native;
+- **Versatility:** _styl_ uses the context API to bring full theme support, which can be used throughout the application; components can also be easily extended and styled overrided when needed;
 - **Ultralightweight:** less than 1kb.
 
 ### Usage
 
-To getting start using react-native-styl, first install the package in your project:
+To get started using `react-native-styl`, first install the package:
 
 `yarn add react-native-styl` or `npm i react-native-styl`
 
 <details open>
 <summary><strong>Styling native elements:</strong></summary>
 
-_Styl_ is a regular function that receives whatever component that supports style prop, and returns another callback function where it expects a plain object stylesheet. So then it'll return a React component with the same props of the original component:
+_Styl_ is a high-order function that receives any component that supports the `style` prop, and returns a function that expects a plain object stylesheet. It will return a styled React component with the same props of the original component:
 
 ```jsx
 import styl from "react-native-styl"
@@ -47,17 +47,17 @@ const Wrapper = styl(ScrollView)({
 <details open>
 <summary><strong>Dynamic styles:</strong></summary>
 
-Create dynamic stylesheet easily passing custom props through the component and receives it in the callback:
+Easily create dynamic stylesheets. Use a callback function to access the component `props` when creating the styles:
 
 ```jsx
 import styl from "react-native-styl"
 import { Text } from "react-native"
 
-const DynamicText = styl(Text)(({ props }) => ({
+const ColoredText = styl(Text)(({ props }) => ({
   color: props.color,
 }))
 
-<DynamicText color="red">Lorem ipsum</DynamicText>
+<ColoredText color="red">Lorem ipsum</ColoredText>
 ```
 
 </details>
@@ -65,23 +65,23 @@ const DynamicText = styl(Text)(({ props }) => ({
 <details>
 <summary><strong>Theming:</strong></summary>
 
-Adding the provider component at the top level of your applications, every component will have access to the `theme` prop into the callback function:
+Wrap your application with the Provider and every component will also have access to the `theme` in the callback function:
 
 ```jsx
-import { styl, Provider as ProviderStyle } from "react-native-styl"
+import { styl, Provider as StyleProvider } from "react-native-styl"
 import { Text } from "react-native"
 
 const Theme = ({ children }) => (
-  <ProviderStyle theme={{ primary: 'blue' }}>
+  <StyleProvider theme={{ primary: 'blue' }}>
     {children}
-  </ProviderStyle>
+  </StyleProvider>
 )
 
-const ColorTheme = styl(Text)(({ theme }) => ({
+const ThemeColorText = styl(Text)(({ theme }) => ({
   color: theme.primary
 }))
 
-<ColorTheme>Lorem ipsum</ColorTheme>
+<ThemeColorText>Lorem ipsum</ThemeColorText>
 ```
 
 </details>
@@ -89,7 +89,7 @@ const ColorTheme = styl(Text)(({ theme }) => ({
 <details>
 <summary><strong>Extends:</strong></summary>
 
-Once _styl_ accepts any components which support style prop, every component created by the library can be style again. It'll inherit the original component style and it'll give the possibility to override them:
+Given that _styl_ accepts any component that supports the `style` prop, every component created by the library can be styled again. It will inherit the original component style that can be extended:
 
 ```jsx
 import styl from "react-native-styl"
@@ -112,7 +112,7 @@ const ExtendedText = styl(BaseText)({
 <details>
 <summary><strong>Presets components:</strong></summary>
 
-The first argument of react-native-styl accepts any kind of valid React component, that means it's possible to pass a custom function component:
+The first argument of `react-native-styl` accepts any valid React component. This means it's possible to pass a custom function component:
 
 ```jsx
 import styl from "react-native-styl"
@@ -130,10 +130,10 @@ const PresetComp = styl((props) => (
 <details>
 <summary><strong>TypeScript:</strong></summary>
 
-react-native-styl fully supports TypeScript for both theme definitions and custom props.
+`react-native-styl` fully supports TypeScript for both theme definitions and custom props.
 
 Theme definition:
-The first step is creating a declarations file with a proper name, `theme.d.ts` for example, with the following content:
+The first step is to create a declarations file (e.g.: `theme.d.ts`), with the following content:
 
 ```jsx
 // import original module declarations
@@ -152,7 +152,7 @@ declare module 'react-native-styl' {
 
 #### Custom props:
 
-Define the arguments of components and pass it to the main function:
+Define the component props and pass it to the main function:
 
 ```jsx
 import styl from "react-native-styl"
@@ -174,7 +174,7 @@ const Title = styl(Text)<TitleProps>(({ props }) => ({
 <details>
 <summary><strong>Styled-API-like:</strong></summary>
 
-Create your custom library that fits your aim:
+Create a custom library to suit your own goals:
 
 ```jsx
 import styl from 'react-native-styl'
@@ -196,7 +196,7 @@ const Title = UI.Text({ color: 'red' })
 
 ### Benchmark
 
-In the internal tests rendering 5k views and 10k views into a Scrollview, _styl_ shows to be one of the most performative ways to write the stylesheet in React Native, losing only to the officially recommended approach for React Native community. The results below are the average of 5 completely renders measured in milliseconds:
+Internal tests rendering 5k views and 10k views into a Scrollview, _styl_ shows to be one of the most performative ways to write stylesheets in React Native, losing only to the native approaches. The results below are the average of 5 complete renders measured in milliseconds:
 
 | Library           | Rendering 5k Views | Rendering 10k Views |
 | :---------------- | :----------------: | :-----------------: |
@@ -207,14 +207,14 @@ In the internal tests rendering 5k views and 10k views into a Scrollview, _styl_
 
 > See the tests in `examples/src`
 
-### Others benchmark that worth to mention:
+### Others benchmarks that are worth mentioning:
 
 - [A Quick Performance Comparison of Styled-Components vs Inline Styles in React Native](https://medium.com/@jm90mm/a-quick-performance-comparison-of-styled-components-vs-inline-styles-in-react-native-21d8f6a561d7)
 - [react-native-css-in-js-benchmarks](https://github.com/brunolemos/react-native-css-in-js-benchmarks/blob/master/RESULTS.md)
 
 ### Inspiration
 
-This package was inspired by the work from people's work on the following projects:
+This package was inspired by people's work on the following projects:
 
 - [Why you don’t need Styled-Components in a React Native app, by Cameron Moss](https://medium.com/@fasterpancakes/how-styled-components-holds-up-to-refactoring-in-a-react-native-app-1922fa96ddd4)
 - [Styled-components;](https://github.com/styled-components/styled-components)
