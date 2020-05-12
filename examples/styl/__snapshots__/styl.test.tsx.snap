@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`styl props renders custom props 1`] = `
+<Text
+  color="blue"
+  style={
+    Object {
+      "color": "blue",
+    }
+  }
+/>
+`;
+
+exports[`styl render renders a type of original component 1`] = `
+<Text
+  style={Object {}}
+/>
+`;
+
+exports[`styl render renders correctly 1`] = `
+<Text
+  style={Object {}}
+/>
+`;
+
+exports[`styl style accepts inline style 1`] = `
+<Text
+  style={
+    Object {
+      "color": "blue",
+    }
+  }
+/>
+`;
+
+exports[`styl style empty inline style does not remove the original style 1`] = `
+<Text
+  style={
+    Object {
+      "color": "blue",
+    }
+  }
+/>
+`;
+
+exports[`styl style its inline style override the original style 1`] = `
+<Text
+  style={
+    Object {
+      "color": "blue",
+    }
+  }
+/>
+`;
+
+exports[`styl theme/provider gets the color from nested theme 1`] = `
+<Text
+  style={
+    Object {
+      "color": "blue",
+    }
+  }
+/>
+`;
+
+exports[`styl theme/provider gets the color from theme 1`] = `
+<Text
+  style={
+    Object {
+      "color": "blue",
+    }
+  }
+/>
+`;

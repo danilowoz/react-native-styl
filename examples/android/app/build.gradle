@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.createstyle"
+        applicationId "com.reactnativestyl"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -1,1 +1,6 @@
-module.exports = require("@significa/prettier-config");
+module.exports = {
+  bracketSpacing: false,
+  jsxBracketSameLine: true,
+  singleQuote: true,
+  trailingComma: 'all',
+};

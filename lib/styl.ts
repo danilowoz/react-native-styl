@@ -19,9 +19,9 @@ import { ViewStyle, TextStyle, ImageStyle } from 'react-native'
 /**
  * For overlap `DefaultTheme` use:
  *
- * create-style.d.ts
+ * styl.d.ts
  *
- * declare module 'create-style' {
+ * declare module 'react-native-styl' {
  *  export interface DefaultTheme extends MyCustomTheme {}
  * }
  */
@@ -74,7 +74,7 @@ const Provider: React.FC<{ theme: Record<string, unknown> }> = ({
 }) => createElement(Context.Provider, { value: { theme }, children })
 
 /**
- * createStyle
+ * styl
  *
  * Given a component as first argument, it return a function
  * which receives a callback with `theme` (from context) and `props`
@@ -83,15 +83,15 @@ const Provider: React.FC<{ theme: Record<string, unknown> }> = ({
  *
  * @example
  * ```tsx
- * const Title = createStyle(Text)(({ theme, props }) => ({
+ * const Title = styl(Text)(({ theme, props }) => ({
  *  paddingLeft: props.padding,
  *  color: theme.primary,
  * }));
  *
- * const BigTitle = createStyle(Title)({ fontSize: 40 })
+ * const BigTitle = styl(Title)({ fontSize: 40 })
  * ```
  */
-const createStyle = <Comp extends ComponentType<any>>(Component: Comp) => <
+const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
   Props extends object = object
 >(
   stylesProp: Styles<Props>
@@ -120,4 +120,4 @@ const createStyle = <Comp extends ComponentType<any>>(Component: Comp) => <
   )
 }
 
-export { createStyle, Provider }
+export { styl, Provider }

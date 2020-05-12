@@ -1,28 +1,22 @@
-/*
- * Copyright (C) 2020 Airfordable, Inc - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- */
-
 import React, { useRef } from 'react'
 import { Text } from 'react-native'
 import renderer from 'react-test-renderer'
 
-import { createStyle, Provider } from '.'
+import { styl, Provider } from '.'
 
 type TempTheme = { theme: { primary: string } }
 
-describe('createStyles', () => {
+describe('styl', () => {
   describe('render', () => {
     it('renders correctly', () => {
-      const Title = createStyle(Text)({})
+      const Title = styl(Text)({})
       const tree = renderer.create(<Title />).toJSON()
 
       expect(tree).toMatchSnapshot()
     })
 
     it('renders a type of original component', () => {
-      const Title = createStyle(Text)({})
+      const Title = styl(Text)({})
       const tree = renderer.create(<Title />).toJSON()
 
       expect(tree?.type).toBe('Text')
@@ -33,7 +27,7 @@ describe('createStyles', () => {
   describe('style', () => {
     it('accepts inline style', () => {
       const GOAL = 'blue'
-      const Title = createStyle(Text)({})
+      const Title = styl(Text)({})
       const render = renderer.create(<Title style={{ color: GOAL }} />)
 
       // Check tree
@@ -48,7 +42,7 @@ describe('createStyles', () => {
     it('its inline style override the original style', () => {
       const WRONG = 'red'
       const GOAL = 'blue'
-      const Title = createStyle(Text)({ color: WRONG })
+      const Title = styl(Text)({ color: WRONG })
       const render = renderer.create(<Title style={{ color: GOAL }} />)
 
       // Check tree
@@ -62,7 +56,7 @@ describe('createStyles', () => {
 
     it('empty inline style does not remove the original style', () => {
       const GOAL = 'blue'
-      const Title = createStyle(Text)({ color: GOAL })
+      const Title = styl(Text)({ color: GOAL })
       const render = renderer.create(<Title style={{}} />)
 
       // Check tree
@@ -78,7 +72,7 @@ describe('createStyles', () => {
   describe('props', () => {
     it('renders custom props', () => {
       const GOAL = 'blue'
-      const Title = createStyle(Text)<{ color: string }>(({ props }) => ({
+      const Title = styl(Text)<{ color: string }>(({ props }) => ({
         color: props.color,
       }))
       const render = renderer.create(<Title color={GOAL} />)
@@ -101,7 +95,7 @@ describe('createStyles', () => {
         <Provider theme={{ primary: GOAL }}>{children}</Provider>
       )
 
-      const Title = createStyle(Text)(({ theme }: TempTheme) => ({
+      const Title = styl(Text)(({ theme }: TempTheme) => ({
         color: theme.primary,
       }))
 
@@ -129,7 +123,7 @@ describe('createStyles', () => {
         <Provider theme={{ primary: GOAL }}>{children}</Provider>
       )
 
-      const Title = createStyle(Text)(({ theme }: TempTheme) => ({
+      const Title = styl(Text)(({ theme }: TempTheme) => ({
         color: theme.primary,
       }))
 
@@ -153,7 +147,7 @@ describe('createStyles', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let ref: any
 
-      const Title = createStyle(Text)({})
+      const Title = styl(Text)({})
 
       const Element = () => {
         ref = useRef<Text>()

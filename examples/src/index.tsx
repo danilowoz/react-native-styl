@@ -2,19 +2,19 @@ import React from 'react'
 import { SafeAreaView, ScrollView, Text } from 'react-native'
 
 import Highlighter from './SyntaxHighlight'
-import { Provider, createStyle } from '../createStyle'
+import { Provider, styl } from '../styl'
 
 /**
  * Pieces
  */
-const Title = createStyle(Text)({
+const Title = styl(Text)({
   fontSize: 18,
   fontWeight: '700',
   paddingTop: 32,
   paddingHorizontal: 16,
 })
 
-const DynamicText = createStyle(Text)<{ color: string }>(({ props }) => ({
+const DynamicText = styl(Text)<{ color: string }>(({ props }) => ({
   padding: 16,
   color: props.color,
 }))
@@ -23,20 +23,20 @@ const Theme: React.FC = ({ children }) => (
   <Provider theme={{ primary: 'blue' }}>{children}</Provider>
 )
 
-const ColorTheme = createStyle(Text)(({ theme }) => ({
+const ColorTheme = styl(Text)(({ theme }) => ({
   color: theme.primary,
   padding: 16,
 }))
 
-const BaseText = createStyle(Text)({
+const BaseText = styl(Text)({
   color: 'red',
 })
-const ExtendedText = createStyle(BaseText)({
+const ExtendedText = styl(BaseText)({
   color: 'green',
   padding: 16,
 })
 
-const PresetComp = createStyle((props) => (
+const PresetComp = styl((props) => (
   <Text ellipsizeMode="tail" numberOfLines={1} {...props} />
 ))({ padding: 16 })
 
@@ -47,7 +47,7 @@ const App = () => {
         {/*  */}
         <Title>Styling native elements</Title>
         <Highlighter>
-          {`const Wrapper = createStyle(ScrollView)({ 
+          {`const Wrapper = styl(ScrollView)({ 
   padding: 16 
 })
 
@@ -60,7 +60,7 @@ const App = () => {
         <Title>Dynamic styles</Title>
         <DynamicText color="red">Example of {`<DynamicText />`}</DynamicText>
         <Highlighter>
-          {`const DynamicText = createStyle(Text)(({ props }) => ({
+          {`const DynamicText = styl(Text)(({ props }) => ({
   color: props.color,
 }))
 
@@ -79,7 +79,7 @@ const App = () => {
   </Provider>
 )
 
-const ColorTheme = createStyle(Text)(({ theme }) => ({
+const ColorTheme = styl(Text)(({ theme }) => ({
   color: theme.primary
 }))
 
@@ -90,11 +90,11 @@ const ColorTheme = createStyle(Text)(({ theme }) => ({
         <Title>Extends components</Title>
         <ExtendedText>Example of {`<ExtendedText />`}</ExtendedText>
         <Highlighter>
-          {`const BaseText = createStyle(Text)({
+          {`const BaseText = styl(Text)({
   color: 'red',
 })
 
-const ExtendedText = createStyle(BaseText)({
+const ExtendedText = styl(BaseText)({
   color: 'green',
 })
 
@@ -111,7 +111,7 @@ const ExtendedText = createStyle(BaseText)({
         </PresetComp>
 
         <Highlighter>
-          {`const PresetComp = createStyle((props) => (
+          {`const PresetComp = styl((props) => (
   <Text ellipsizeMode="tail" numberOfLines={1} {...props} />
 ))({ padding: 16 })
 
