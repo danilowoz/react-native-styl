@@ -9,16 +9,28 @@
 
 <p><strong><i>react-native-styl</i> is a micro-library for React Native developers</strong> whose goal is to write stylesheets with a non-opinionated library, free of dependencies, and in the easiest way possible.</p>
 
+```jsx
+import styl from "react-native-styl"
+import { Text } from "react-native"
+
+const Title = styl(Text)({ color: "blue" })
+
+const App = () => <Title>Styl</Title>
+```
+
 ---
 
-### Motivation
+## Motivation
 
 - **Keep the stylesheet simple:** the recommended approach to writing stylesheets in React Native still needs too much boilerplate and it's a pain to maintain; _styl_ provides a simple API where you'll be able to write the same stylesheets you are used to – with fewer lines of code;
+
 - **Performance:** no magic or tricks here, _styl_ just maps the stylesheet (which can come from inline-style, the function argument or even props) to the style prop in the component: one of the most performative ways to write styles in React Native;
+
 - **Versatility:** _styl_ uses the context API to bring full theme support, which can be used throughout the application; components can also be easily extended and styled overrided when needed;
+
 - **Ultralightweight:** less than 1kb.
 
-### Usage
+## Usage
 
 To get started using `react-native-styl`, first install the package:
 
@@ -194,7 +206,7 @@ const Title = UI.Text({ color: 'red' })
 
 ---
 
-### Benchmark
+## Benchmark
 
 Internal tests rendering 5k views and 10k views into a Scrollview, _styl_ shows to be one of the most performative ways to write stylesheets in React Native, losing only to the native approaches. The results below are the average of 5 complete renders measured in milliseconds:
 
