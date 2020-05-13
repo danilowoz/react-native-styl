@@ -4,16 +4,16 @@ import { ScrollView, View, Text } from 'react-native'
 import 'react-native-console-time-polyfill'
 
 import arr from './arr'
-import { createStyle } from '../createStyle'
+import { styl } from '../styl'
 
-const Box = createStyle(View)({
+const Box = styl(View)({
   paddingTop: 5,
   paddingBottom: 5,
   borderBottomWidth: 1,
   borderBottomColor: 'grey',
 })
 
-const Label = createStyle(Text)({ color: 'red' })
+const Label = styl(Text)({ color: 'red' })
 
 class TestScreen extends Component {
   componentDidMount() {

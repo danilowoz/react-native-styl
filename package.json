@@ -1,5 +1,5 @@
 {
-  "name": "create-style",
+  "name": "react-native-styl",
   "version": "0.0.1",
   "description": "",
   "author": "Danilo Woznica <danilowoz@gmail.com>",
@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier \"src/**/*.+(ts|tsx|js|jsx|json|yml|yaml|md|mdx)\" --write",
-    "dev": "npm run build && rm -rf ./examples/createStyle && cp -R ./lib ./examples/createStyle",
+    "dev": "npm run build && rm -rf ./examples/styl && cp -R ./lib ./examples/styl",
     "test": "jest lib",
     "build": "npm run build:clean && npm run build:ts",
     "build:ts": "tsc",

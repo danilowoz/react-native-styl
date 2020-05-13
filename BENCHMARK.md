@@ -32,7 +32,7 @@ avg 2317ms
 5024.147216796875ms
 avg 4507ms
 
-## Lib
+## react-native-styl
 ### 5k views
 2952.5849609375ms
 2624.95703125ms
