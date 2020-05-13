@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView, ScrollView, Text } from 'react-native'
+import { SafeAreaView, ScrollView, Text, TouchableOpacity } from 'react-native'
 
 import Highlighter from './SyntaxHighlight'
 import { Provider, styl } from '../styl'
@@ -31,9 +31,14 @@ const ColorTheme = styl(Text)(({ theme }) => ({
 const BaseText = styl(Text)({
   color: 'red',
 })
+
 const ExtendedText = styl(BaseText)({
   color: 'green',
   padding: 16,
+})
+
+const AsComp = styl(Text)({
+  padding: 16
 })
 
 const PresetComp = styl((props) => (
@@ -102,7 +107,7 @@ const ExtendedText = styl(BaseText)({
         </Highlighter>
 
         {/*  */}
-        <Title>Component presets</Title>
+        <Title>`as` prop</Title>
         <PresetComp>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum
           molestiae ducimus impedit doloremque accusantium quos, facere illum
@@ -116,6 +121,18 @@ const ExtendedText = styl(BaseText)({
 ))({ padding: 16 })
 
 <PresetComp>Lorem ipsum</PresetComp>`}
+        </Highlighter>
+
+        {/*  */}
+        <Title>Component presets</Title>
+        <AsComp as={TouchableOpacity}><Text>TouchableOpacity</Text></AsComp>
+
+        <Highlighter>
+          {`const AsComp = styl(Text)({
+  padding: 16
+})
+
+<AsComp as={TouchableOpacity}><Text>TouchableOpacity</Text></AsComp>`}
         </Highlighter>
       </ScrollView>
     </SafeAreaView>

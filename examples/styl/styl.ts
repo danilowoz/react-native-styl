@@ -41,7 +41,8 @@ type Styles<P> = StylesWithTheme<P> | StyleProperties
 type ForwardedProps<
   Comp extends ComponentType<unknown>,
   Props extends object
-> = ComponentPropsWithoutRef<Comp> & Props & { children?: ReactNode }
+> = ComponentPropsWithoutRef<Comp> &
+  Props & { children?: ReactNode; as?: ComponentType<any> }
 
 /**
  * Context
@@ -102,7 +103,7 @@ const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
       const { theme } = useContext(Context)
 
       // Spread props and inline styles
-      const { style: inlineStyles = {}, ...restProps } = props
+      const { style: inlineStyles = {}, as, ...restProps } = props
 
       // Check type of argument
       const styles =
@@ -111,7 +112,7 @@ const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
           : stylesProp
 
       // Create component
-      return createElement(Component, {
+      return createElement(as || Component, {
         ...restProps,
         ref,
         style: { ...styles, ...inlineStyles },

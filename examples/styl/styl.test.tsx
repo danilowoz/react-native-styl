@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Text } from 'react-native'
+import { Text, TouchableWithoutFeedback } from 'react-native'
 import renderer from 'react-test-renderer'
 
 import { styl, Provider } from '.'
@@ -84,6 +84,32 @@ describe('styl', () => {
       // Snapshot
       const json = render.toJSON()
       expect(json).toMatchSnapshot()
+    })
+
+    it('`as` prop works properly', () => {
+      const ORIGINAL = Text
+      const GOAL = TouchableWithoutFeedback
+
+      const fn = jest.fn()
+      const Comp = styl(ORIGINAL)({ color: 'blue' })
+
+      const render = renderer.create(
+        <Comp as={GOAL} onPress={fn}>
+          <Text>TouchableWithoutFeedback</Text>
+        </Comp>
+      )
+
+      // Check tree
+      const tree = render.toTree()
+      expect(tree?.instance instanceof GOAL).toBe(true)
+
+      // Snapshot
+      const json = render.toJSON()
+      expect(json).toMatchSnapshot()
+
+      // Event onPress has been called
+      tree?.props.onPress()
+      expect(fn).toBeCalled()
     })
   })
 

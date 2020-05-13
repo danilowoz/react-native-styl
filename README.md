@@ -10,10 +10,10 @@
 <p><strong><i>react-native-styl</i> is a micro-library for React Native developers</strong> whose goal is to write stylesheets with a non-opinionated library, free of dependencies, and in the easiest way possible.</p>
 
 ```jsx
-import styl from "react-native-styl"
-import { Text } from "react-native"
+import styl from 'react-native-styl'
+import { Text } from 'react-native'
 
-const Title = styl(Text)({ color: "blue" })
+const Title = styl(Text)({ color: 'blue' })
 
 const App = () => <Title>Styl</Title>
 ```
@@ -122,6 +122,28 @@ const ExtendedText = styl(BaseText)({
 </details>
 
 <details>
+<summary><strong>`as` prop:</strong></summary>
+
+Render a new styled component passing a valid React component to `as` prop:
+
+```jsx
+import styl from "react-native-styl"
+import { Text, TouchableOpacity } from "react-native"
+
+const Base = styl(Text)({
+  padding: 16
+})
+
+<Base as={TouchableOpacity} onPress={() => null}>
+  <Text>TouchableOpacity</Text>
+</Base>
+```
+
+> Typescript is not yet supported [Help is needed to implement it](https://github.com/danilowoz/react-native-styl/issues/3).
+
+</details>
+
+<details>
 <summary><strong>Presets components:</strong></summary>
 
 The first argument of `react-native-styl` accepts any valid React component. This means it's possible to pass a custom function component:
@@ -181,6 +203,10 @@ const Title = styl(Text)<TitleProps>(({ props }) => ({
 <Title color="blue">Lorem ipsum</Title>
 ```
 
+#### `as` prop
+
+Typescript is not yet supported [Help is needed to implement it](https://github.com/danilowoz/react-native-styl/issues/3).
+
 </details>
 
 <details>
@@ -210,12 +236,12 @@ const Title = UI.Text({ color: 'red' })
 
 Internal tests rendering 5k views and 10k views into a Scrollview, _styl_ shows to be one of the most performative ways to write stylesheets in React Native, losing only to the native approaches. The results below are the average of 5 complete renders measured in milliseconds:
 
-| Library           | Rendering 5k Views | Rendering 10k Views |
-| :---------------- | :----------------: | :-----------------: |
-| StyleSheet        |       2068ms       |       4095ms        |
-| Inline-style      |       2317ms       |       4507ms        |
-| **react-native-styl**           |     **2754ms**     |     **5432ms**      |
-| Styled-components |       3102ms       |       6460ms        |
+| Library               | Rendering 5k Views | Rendering 10k Views |
+| :-------------------- | :----------------: | :-----------------: |
+| StyleSheet            |       2068ms       |       4095ms        |
+| Inline-style          |       2317ms       |       4507ms        |
+| **react-native-styl** |     **2754ms**     |     **5432ms**      |
+| Styled-components     |       3102ms       |       6460ms        |
 
 > See the tests in `examples/src`
 
