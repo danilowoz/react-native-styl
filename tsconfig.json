@@ -9,7 +9,8 @@
     "noEmit": false,
     "sourceMap": true,
     "target": "es5",
-    "isolatedModules": false
+    "isolatedModules": false,
+    "removeComments": true
   },
   "exclude": ["node_modules", "examples"]
 }
