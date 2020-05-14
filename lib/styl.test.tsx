@@ -4,8 +4,6 @@ import renderer from 'react-test-renderer'
 
 import { styl, Provider } from '.'
 
-type TempTheme = { theme: { primary: string } }
-
 describe('styl', () => {
   describe('render', () => {
     it('renders correctly', () => {
@@ -121,7 +119,7 @@ describe('styl', () => {
         <Provider theme={{ primary: GOAL }}>{children}</Provider>
       )
 
-      const Title = styl(Text)(({ theme }: TempTheme) => ({
+      const Title = styl(Text)(({ theme }: any) => ({
         color: theme.primary,
       }))
 
@@ -149,7 +147,7 @@ describe('styl', () => {
         <Provider theme={{ primary: GOAL }}>{children}</Provider>
       )
 
-      const Title = styl(Text)(({ theme }: TempTheme) => ({
+      const Title = styl(Text)(({ theme }: any) => ({
         color: theme.primary,
       }))
 

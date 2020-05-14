@@ -22,11 +22,16 @@ import { ViewStyle, TextStyle, ImageStyle } from 'react-native'
  * styl.d.ts
  *
  * declare module 'react-native-styl' {
- *  export interface DefaultTheme extends MyCustomTheme {}
+ *  export interface DefaultTheme {
+ *    colors: {
+ *      main: string;
+ *      secondary: string;
+ *    };
+ *  }
  * }
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type DefaultTheme = any
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface DefaultTheme {}
 
 // Style
 type StyleProperties = ViewStyle | TextStyle | ImageStyle
