@@ -28,7 +28,7 @@ const App = () => <Title>Styl</Title>
 
 - **Versatility:** _styl_ uses the context API to bring full theme support, which can be used throughout the application; components can also be easily extended and styled overrided when needed;
 
-- **Ultralightweight:** less than 1kb.
+- **Ultralightweight:** about 1kb.
 
 ## Usage
 
