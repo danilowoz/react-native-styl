@@ -28,7 +28,7 @@ const App = () => <Title>Styl</Title>
 
 - **Versatility:** _styl_ uses the context API to bring full theme support, which can be used throughout the application; components can also be easily extended and styled overrided when needed;
 
-- **Ultralightweight:** less than 1kb.
+- **Ultralightweight:** about 1kb.
 
 ## Usage
 
@@ -250,7 +250,7 @@ Internal tests rendering 5k views and 10k views into a Scrollview, _styl_ shows 
 - [A Quick Performance Comparison of Styled-Components vs Inline Styles in React Native](https://medium.com/@jm90mm/a-quick-performance-comparison-of-styled-components-vs-inline-styles-in-react-native-21d8f6a561d7)
 - [react-native-css-in-js-benchmarks](https://github.com/brunolemos/react-native-css-in-js-benchmarks/blob/master/RESULTS.md)
 
-### Inspiration
+### Inspiration:
 
 This package was inspired by people's work on the following projects:
 
@@ -258,6 +258,10 @@ This package was inspired by people's work on the following projects:
 - [Styled-components;](https://github.com/styled-components/styled-components)
 - [Glamorous-native.](https://github.com/robinpowered/glamorous-native)
 
-### License
+### Special thanks to:
+- [Airfordable](https://github.com/Airfordable);
+- [Significa](https://github.com/significa).
+
+### License:
 
 [MIT License](https://opensource.org/licenses/MIT) © [Danilo Woznica](https://danilowoz.com/)
