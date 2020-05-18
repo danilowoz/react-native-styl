@@ -107,7 +107,7 @@ const ExtendedText = styl(BaseText)({
         </Highlighter>
 
         {/*  */}
-        <Title>`as` prop</Title>
+        <Title>Component presets</Title>
         <PresetComp>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum
           molestiae ducimus impedit doloremque accusantium quos, facere illum
@@ -124,7 +124,7 @@ const ExtendedText = styl(BaseText)({
         </Highlighter>
 
         {/*  */}
-        <Title>Component presets</Title>
+        <Title>`as` prop</Title>
         <AsComp as={TouchableOpacity}><Text>TouchableOpacity</Text></AsComp>
 
         <Highlighter>
