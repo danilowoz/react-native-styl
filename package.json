@@ -38,7 +38,7 @@
     "jest": "26.0.1",
     "metro-react-native-babel-preset": "0.59.0",
     "react": "^16.13.1",
-    "react-native": "0.62.2",
+    "react-native": "^0.63.2",
     "react-test-renderer": "16.13.1"
   },
   "peerDependencies": {
