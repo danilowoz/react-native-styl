@@ -78,6 +78,17 @@ const Provider: React.FC<{ theme: DefaultTheme }> = ({ children, theme }) =>
   createElement(Context.Provider, { value: { theme }, children })
 
 /**
+ * useTheme
+ *
+ * Expose the `theme` as a React hook
+ */
+const useTheme = (): DefaultTheme => {
+  const { theme } = useContext(Context)
+
+  return theme
+}
+
+/**
  * styl
  *
  * Given a component as first argument, it return a function
@@ -124,4 +135,4 @@ const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
   )
 }
 
-export { styl, Provider }
+export { styl, Provider, useTheme }

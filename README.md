@@ -99,6 +99,32 @@ const ThemeColorText = styl(Text)(({ theme }) => ({
 </details>
 
 <details>
+<summary><strong>useTheme:</strong></summary>
+
+The `useTheme` hook let you access the currently active theme.
+
+```jsx
+import { useTheme, Provider as StyleProvider } from "react-native-styl"
+
+const Main = ({ children }) => {
+  const theme = useTheme()
+
+  return <Text style={{ color: theme.brand }}>Foo</Text>
+}
+
+const App = () => {
+
+  return (
+    <StyleProvider theme={{ color: { brand: "blue" }}}>
+      <Main />
+    </StyleProvider>
+  )
+}
+```
+
+</details>
+
+<details>
 <summary><strong>Extends:</strong></summary>
 
 Given that _styl_ accepts any component that supports the `style` prop, every component created by the library can be styled again. It will inherit the original component style that can be extended:

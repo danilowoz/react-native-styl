@@ -12,5 +12,5 @@
     "isolatedModules": false,
     "removeComments": true
   },
-  "exclude": ["node_modules", "examples"]
+  "exclude": ["node_modules", "examples", "jest.config.js", "commitlint.config.js"]
 }

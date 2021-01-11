@@ -1,8 +1,9 @@
 import React, { useRef } from 'react'
 import { Text, TouchableWithoutFeedback } from 'react-native'
 import renderer from 'react-test-renderer'
+import { renderHook } from '@testing-library/react-hooks'
 
-import { styl, Provider } from '.'
+import { styl, Provider, useTheme } from '.'
 
 describe('styl', () => {
   describe('render', () => {
@@ -163,6 +164,17 @@ describe('styl', () => {
 
       expect(render?.props.style.color).toBe(GOAL)
       expect(render).toMatchSnapshot()
+    })
+
+    it('useTheme', () => {
+      const theme = { color: 'red' }
+      const wrapper: React.FC = ({ children }) => (
+        <Provider theme={theme}>{children}</Provider>
+      )
+
+      const { result } = renderHook(() => useTheme(), { wrapper })
+
+      expect((result.current as typeof theme).color).toBe(theme.color)
     })
   })
 
