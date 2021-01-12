@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "",
   "author": "Danilo Woznica <danilowoz@gmail.com>",
-  "main": "build/lib/index.js",
-  "types": "build/types/lib/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/types/index.d.ts",
   "scripts": {
     "lint": "eslint \"lib/**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier \"src/**/*.+(ts|tsx|js|jsx|json|yml|yaml|md|mdx)\" --write",
