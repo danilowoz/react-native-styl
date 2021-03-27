@@ -129,7 +129,10 @@ const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
       return createElement(as || Component, {
         ...restProps,
         ref,
-        style: [ styles, ...(Array.isArray(inlineStyles) ? inlineStyles : [inlineStyles]) ],
+        style: [
+          styles,
+          ...(Array.isArray(inlineStyles) ? inlineStyles : [inlineStyles]),
+        ],
       })
     }
   )
