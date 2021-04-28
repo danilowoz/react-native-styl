@@ -1,6 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`styl props \`as\` prop works properly 1`] = `
+exports[`styl props polymorphic > ScrollView 1`] = `
+<RCTScrollView
+  scrollEnabled={true}
+  style={
+    Array [
+      Object {
+        "color": "blue",
+      },
+      Object {},
+    ]
+  }
+>
+  <View>
+    <Text>
+      TouchableWithoutFeedback
+    </Text>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`styl props polymorphic > TouchableWithoutFeedback 1`] = `
 <Text
   accessible={true}
   focusable={true}
@@ -20,31 +40,47 @@ exports[`styl props renders custom props 1`] = `
 <Text
   color="blue"
   style={
-    Object {
-      "color": "blue",
-    }
+    Array [
+      Object {
+        "color": "blue",
+      },
+      Object {},
+    ]
   }
 />
 `;
 
 exports[`styl render renders a type of original component 1`] = `
 <Text
-  style={Object {}}
+  style={
+    Array [
+      Object {},
+      Object {},
+    ]
+  }
 />
 `;
 
 exports[`styl render renders correctly 1`] = `
 <Text
-  style={Object {}}
+  style={
+    Array [
+      Object {},
+      Object {},
+    ]
+  }
 />
 `;
 
 exports[`styl style accepts inline style 1`] = `
 <Text
   style={
-    Object {
-      "color": "blue",
-    }
+    Array [
+      Object {},
+      Object {
+        "color": "blue",
+      },
+    ]
   }
 />
 `;
@@ -52,9 +88,12 @@ exports[`styl style accepts inline style 1`] = `
 exports[`styl style empty inline style does not remove the original style 1`] = `
 <Text
   style={
-    Object {
-      "color": "blue",
-    }
+    Array [
+      Object {
+        "color": "blue",
+      },
+      Object {},
+    ]
   }
 />
 `;
@@ -62,9 +101,14 @@ exports[`styl style empty inline style does not remove the original style 1`] = 
 exports[`styl style its inline style override the original style 1`] = `
 <Text
   style={
-    Object {
-      "color": "blue",
-    }
+    Array [
+      Object {
+        "color": "red",
+      },
+      Object {
+        "color": "blue",
+      },
+    ]
   }
 />
 `;
@@ -72,9 +116,12 @@ exports[`styl style its inline style override the original style 1`] = `
 exports[`styl theme/provider gets the color from nested theme 1`] = `
 <Text
   style={
-    Object {
-      "color": "blue",
-    }
+    Array [
+      Object {
+        "color": "blue",
+      },
+      Object {},
+    ]
   }
 />
 `;
@@ -82,9 +129,12 @@ exports[`styl theme/provider gets the color from nested theme 1`] = `
 exports[`styl theme/provider gets the color from theme 1`] = `
 <Text
   style={
-    Object {
-      "color": "blue",
-    }
+    Array [
+      Object {
+        "color": "blue",
+      },
+      Object {},
+    ]
   }
 />
 `;

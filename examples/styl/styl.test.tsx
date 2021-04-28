@@ -90,7 +90,7 @@ describe('styl', () => {
       expect(json).toMatchSnapshot()
     })
 
-    it('`as` prop works properly > TouchableWithoutFeedback', () => {
+    it('polymorphic > TouchableWithoutFeedback', () => {
       const ORIGINAL = Text
       const GOAL = TouchableWithoutFeedback
 
@@ -116,7 +116,7 @@ describe('styl', () => {
       expect(fn).toBeCalled()
     })
 
-    it('`as` prop works properly > ScrollView', () => {
+    it('polymorphic > ScrollView', () => {
       const ORIGINAL = Text
       const GOAL = ScrollView
 
@@ -135,6 +135,22 @@ describe('styl', () => {
       // Snapshot
       const json = render.toJSON()
       expect(json).toMatchSnapshot()
+    })
+
+    it('polymorphic > ref', () => {
+      let ref = useRef<ScrollView>()
+
+      const Title = styl(Text)<{ color: string }>({})
+
+      const Element = () => {
+        // reassign in a new context
+        ref = useRef<ScrollView>()
+        return <Title />
+      }
+
+      renderer.create(<Element />).toJSON()
+
+      expect(ref.current instanceof Text).toBe(true)
     })
   })
 
@@ -206,12 +222,12 @@ describe('styl', () => {
 
   describe('ref', () => {
     it('gets proper ref', () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      let ref: any
+      let ref = useRef<Text>()
 
       const Title = styl(Text)({})
 
       const Element = () => {
+        // reassign in a new context
         ref = useRef<Text>()
         return <Title ref={ref} />
       }

@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`styl props \`as\` prop works properly > ScrollView 1`] = `
+<RCTScrollView
+  scrollEnabled={true}
+  style={
+    Array [
+      Object {
+        "color": "blue",
+      },
+      Object {},
+    ]
+  }
+>
+  <View>
+    <Text>
+      TouchableWithoutFeedback
+    </Text>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`styl props \`as\` prop works properly > TouchableWithoutFeedback 1`] = `
+<Text
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+>
+  TouchableWithoutFeedback
+</Text>
+`;
+
 exports[`styl props \`as\` prop works properly 1`] = `
 <Text
   accessible={true}

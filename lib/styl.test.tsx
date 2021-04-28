@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { ScrollView, Text, TouchableWithoutFeedback } from 'react-native'
-import renderer from 'react-test-renderer'
+import renderer, { ReactTestRendererJSON } from 'react-test-renderer'
 import { renderHook } from '@testing-library/react-hooks'
 
 import { styl, Provider, useTheme } from '.'
@@ -16,9 +16,9 @@ describe('styl', () => {
 
     it('renders a type of original component', () => {
       const Title = styl(Text)({})
-      const tree = renderer.create(<Title />).toTree()
+      const tree = renderer.create(<Title />).toJSON() as ReactTestRendererJSON
 
-      expect(tree?.type).toBe('Text')
+      expect(tree.type).toBe('Text')
       expect(tree).toMatchSnapshot()
     })
   })
@@ -28,11 +28,10 @@ describe('styl', () => {
       const GOAL = 'blue'
       const Title = styl(Text)({})
       const render = renderer.create(<Title style={{ color: GOAL }} />)
-
       // Check tree
-      const tree = render.toTree()
-      expect(tree?.props.style.color).toBe(GOAL)
-
+      const tree = render.toJSON() as ReactTestRendererJSON
+      const styles = { ...tree.props.style[0], ...tree.props.style[1] }
+      expect(styles.color).toBe(GOAL)
       // Snapshot
       const json = render.toJSON()
       expect(json).toMatchSnapshot()
@@ -43,11 +42,10 @@ describe('styl', () => {
       const GOAL = 'blue'
       const Title = styl(Text)({ color: WRONG })
       const render = renderer.create(<Title style={{ color: GOAL }} />)
-
       // Check tree
-      const tree = render.toTree()
-      expect(tree?.props.style.color).toBe(GOAL)
-
+      const tree = render.toJSON() as ReactTestRendererJSON
+      const styles = { ...tree.props.style[0], ...tree.props.style[1] }
+      expect(styles.color).toBe(GOAL)
       // Snapshot
       const json = render.toJSON()
       expect(json).toMatchSnapshot()
@@ -57,11 +55,10 @@ describe('styl', () => {
       const GOAL = 'blue'
       const Title = styl(Text)({ color: GOAL })
       const render = renderer.create(<Title style={{}} />)
-
       // Check tree
-      const tree = render.toTree()
-      expect(tree?.props.style.color).toBe(GOAL)
-
+      const tree = render.toJSON() as ReactTestRendererJSON
+      const styles = { ...tree.props.style[0], ...tree.props.style[1] }
+      expect(styles.color).toBe(GOAL)
       // Snapshot
       const json = render.toJSON()
       expect(json).toMatchSnapshot()
@@ -77,20 +74,17 @@ describe('styl', () => {
       const Title = styl(Text)<{ color: GOAL }>(({ props }) => ({
         color: props.color,
       }))
-      const render = renderer.create(
-        <Title as={() => null} color={GOAL.blue} />
-      )
-
+      const render = renderer.create(<Title color={GOAL.blue} />)
       // Check tree
-      const tree = render.toTree()
-      expect(tree?.props.style.color).toBe(GOAL)
-
+      const tree = render.toJSON() as ReactTestRendererJSON
+      const styles = { ...tree.props.style[0], ...tree.props.style[1] }
+      expect(styles.color).toBe(GOAL.blue)
       // Snapshot
       const json = render.toJSON()
       expect(json).toMatchSnapshot()
     })
 
-    it('`as` prop works properly > TouchableWithoutFeedback', () => {
+    it('polymorphic > TouchableWithoutFeedback', () => {
       const ORIGINAL = Text
       const GOAL = TouchableWithoutFeedback
 
@@ -116,7 +110,7 @@ describe('styl', () => {
       expect(fn).toBeCalled()
     })
 
-    it('`as` prop works properly > ScrollView', () => {
+    it('polymorphic > ScrollView', () => {
       const ORIGINAL = Text
       const GOAL = ScrollView
 
@@ -150,16 +144,17 @@ describe('styl', () => {
         color: theme.primary,
       }))
 
-      const render = renderer
+      const tree = renderer
         .create(
           <ProviderTheme>
             <Title />
           </ProviderTheme>
         )
-        .toTree()
+        .toJSON() as ReactTestRendererJSON
 
-      expect(render?.props.style.color).toBe(GOAL)
-      expect(render).toMatchSnapshot()
+      const styles = { ...tree.props.style[0], ...tree.props.style[1] }
+      expect(styles.color).toBe(GOAL)
+      expect(tree).toMatchSnapshot()
     })
 
     it('gets the color from nested theme', () => {
@@ -178,7 +173,7 @@ describe('styl', () => {
         color: theme.primary,
       }))
 
-      const render = renderer
+      const tree = renderer
         .create(
           <ThemeA>
             <ThemeB>
@@ -186,10 +181,11 @@ describe('styl', () => {
             </ThemeB>
           </ThemeA>
         )
-        .toTree()
+        .toJSON() as ReactTestRendererJSON
 
-      expect(render?.props.style.color).toBe(GOAL)
-      expect(render).toMatchSnapshot()
+      const styles = { ...tree.props.style[0], ...tree.props.style[1] }
+      expect(styles.color).toBe(GOAL)
+      expect(tree).toMatchSnapshot()
     })
 
     it('useTheme', () => {
@@ -206,19 +202,35 @@ describe('styl', () => {
 
   describe('ref', () => {
     it('gets proper ref', () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let ref: any
 
       const Title = styl(Text)({})
 
       const Element = () => {
+        // reassign in a new context
         ref = useRef<Text>()
         return <Title ref={ref} />
       }
 
-      renderer.create(<Element />).toJSON()
+      renderer.create(<Element />).toTree()
 
       expect(ref.current instanceof Text).toBe(true)
+    })
+
+    it('polymorphic', () => {
+      let ref: any
+
+      const Title = styl(Text)<{ color: string }>({})
+
+      const Element = () => {
+        // reassign in a new context
+        ref = useRef<ScrollView>()
+        return <Title as={ScrollView} ref={ref} color="blue" />
+      }
+
+      renderer.create(<Element />).toJSON()
+
+      expect(ref.current instanceof ScrollView).toBe(true)
     })
   })
 })

@@ -4,6 +4,8 @@ import React, {
   createContext,
   createElement,
   forwardRef,
+  JSXElementConstructor,
+  ReactElement,
   ReactNode,
   useContext,
 } from 'react'
@@ -51,11 +53,13 @@ type DefaultProps = object & {
 
 // Polymorphic
 interface Polymorphic<IntrinsicElement, OwnProps = {}> {
-  <As extends React.ComponentType<any>>(
-    props: As extends React.JSXElementConstructor<infer P>
-      ? OwnProps & { ref?: IntrinsicElement } & { as?: As } & P
+  <As extends ComponentType<any>>(
+    props: As extends JSXElementConstructor<infer P>
+      ? OwnProps & { ref?: As } & { as?: As } & P
+      : IntrinsicElement extends JSXElementConstructor<infer E>
+      ? OwnProps & { ref?: IntrinsicElement } & { as?: IntrinsicElement } & E
       : never
-  ): React.ReactElement | null
+  ): ReactElement | null
 }
 
 /**
@@ -119,8 +123,8 @@ const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
   Props extends DefaultProps = DefaultProps
 >(
   stylesProp: Styles<Props>
-) => {
-  return (forwardRef(function ForwardedComponent(props: Props, ref) {
+): Polymorphic<Comp, Props> => {
+  return forwardRef(function ForwardedComponent(props: Props, ref) {
     // Get theme from context
     const { theme } = useContext(Context)
 
@@ -142,7 +146,7 @@ const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
         ...(Array.isArray(inlineStyles) ? inlineStyles : [inlineStyles]),
       ],
     })
-  }) as unknown) as Polymorphic<Comp, Props>
+  })
 }
 
 export { styl, Provider, useTheme }

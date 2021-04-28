@@ -4,6 +4,8 @@ import React, {
   createContext,
   createElement,
   forwardRef,
+  JSXElementConstructor,
+  ReactElement,
   ReactNode,
   useContext,
 } from 'react'
@@ -32,7 +34,9 @@ import { ViewStyle, TextStyle, ImageStyle, StyleProp } from 'react-native'
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DefaultTheme {}
 
-// Theme
+/**
+ * Theme
+ */
 type StyleProperties = ViewStyle | TextStyle | ImageStyle
 
 type StylesWithTheme<P> = (args: {
@@ -42,20 +46,27 @@ type StylesWithTheme<P> = (args: {
 
 type Styles<P> = StylesWithTheme<P> | StyleProperties
 
-// Props
+/**
+ * Props
+ */
 type DefaultProps = object & {
   as?: ComponentType<any>
   style?: StyleProp<StyleProperties>
   children?: ReactNode
 }
 
-// Polymorphic
-interface Polymorphic<IntrinsicElement, OwnProps = {}> {
-  <As extends React.ComponentType<any>>(
-    props: As extends React.JSXElementConstructor<infer P>
-      ? OwnProps & { ref?: IntrinsicElement } & { as?: As } & P
+/**
+ * Polymorphic
+ */
+interface Polymorphic<
+  IntrinsicElement extends ComponentType<any>,
+  OwnProps = {}
+> {
+  <As extends ComponentType<any> = IntrinsicElement>(
+    props: As extends JSXElementConstructor<infer AsProps>
+      ? OwnProps & { ref?: As } & { as?: As } & AsProps
       : never
-  ): React.ReactElement | null
+  ): ReactElement | null
 }
 
 /**
@@ -119,8 +130,8 @@ const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
   Props extends DefaultProps = DefaultProps
 >(
   stylesProp: Styles<Props>
-) => {
-  return (forwardRef(function ForwardedComponent(props: Props, ref) {
+): Polymorphic<Comp, Props> => {
+  return forwardRef(function ForwardedComponent(props: Props, ref) {
     // Get theme from context
     const { theme } = useContext(Context)
 
@@ -142,7 +153,7 @@ const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
         ...(Array.isArray(inlineStyles) ? inlineStyles : [inlineStyles]),
       ],
     })
-  }) as unknown) as Polymorphic<Comp, Props>
+  })
 }
 
 export { styl, Provider, useTheme }
