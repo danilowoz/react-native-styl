@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
 import React, {
-  ComponentPropsWithoutRef,
   ComponentType,
   createContext,
   createElement,
@@ -8,7 +7,7 @@ import React, {
   ReactNode,
   useContext,
 } from 'react'
-import { ViewStyle, TextStyle, ImageStyle } from 'react-native'
+import { ViewStyle, TextStyle, ImageStyle, StyleProp } from 'react-native'
 
 /**
  * Types definition
@@ -33,7 +32,7 @@ import { ViewStyle, TextStyle, ImageStyle } from 'react-native'
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DefaultTheme {}
 
-// Style
+// Theme
 type StyleProperties = ViewStyle | TextStyle | ImageStyle
 
 type StylesWithTheme<P> = (args: {
@@ -43,11 +42,21 @@ type StylesWithTheme<P> = (args: {
 
 type Styles<P> = StylesWithTheme<P> | StyleProperties
 
-type ForwardedProps<
-  Comp extends ComponentType<unknown>,
-  Props extends object
-> = ComponentPropsWithoutRef<Comp> &
-  Props & { children?: ReactNode; as?: ComponentType<any> }
+// Props
+type DefaultProps = object & {
+  as?: ComponentType<any>
+  style?: StyleProp<StyleProperties>
+  children?: ReactNode
+}
+
+// Polymorphic
+interface Polymorphic<IntrinsicElement, OwnProps = {}> {
+  <As extends React.ComponentType<any>>(
+    props: As extends React.JSXElementConstructor<infer P>
+      ? OwnProps & { ref?: IntrinsicElement } & { as?: As } & P
+      : never
+  ): React.ReactElement | null
+}
 
 /**
  * Context
@@ -107,35 +116,33 @@ const useTheme = (): DefaultTheme => {
  * ```
  */
 const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
-  Props extends object = object
+  Props extends DefaultProps = DefaultProps
 >(
   stylesProp: Styles<Props>
 ) => {
-  return forwardRef<unknown, ForwardedProps<Comp, Props>>(
-    function ForwardedComponent(props, ref) {
-      // Get theme from context
-      const { theme } = useContext(Context)
+  return (forwardRef(function ForwardedComponent(props: Props, ref) {
+    // Get theme from context
+    const { theme } = useContext(Context)
 
-      // Spread props and inline styles
-      const { style: inlineStyles = {}, as, ...restProps } = props
+    // Spread props and inline styles
+    const { style: inlineStyles = {}, as, ...restProps } = props
 
-      // Check type of argument
-      const styles =
-        typeof stylesProp === 'function'
-          ? stylesProp({ props, theme })
-          : stylesProp
+    // Check type of argument
+    const styles =
+      typeof stylesProp === 'function'
+        ? stylesProp({ props, theme })
+        : stylesProp
 
-      // Create component
-      return createElement(as || Component, {
-        ...restProps,
-        ref,
-        style: [
-          styles,
-          ...(Array.isArray(inlineStyles) ? inlineStyles : [inlineStyles]),
-        ],
-      })
-    }
-  )
+    // Create component
+    return createElement<DefaultProps>(as || Component, {
+      ...restProps,
+      ref,
+      style: [
+        styles,
+        ...(Array.isArray(inlineStyles) ? inlineStyles : [inlineStyles]),
+      ],
+    })
+  }) as unknown) as Polymorphic<Comp, Props>
 }
 
 export { styl, Provider, useTheme }
