@@ -1,8 +1,8 @@
-import React from 'react'
-import { SafeAreaView, ScrollView, Text, TouchableOpacity } from 'react-native'
+import React, {useRef} from 'react';
+import {SafeAreaView, ScrollView, Text, TouchableOpacity} from 'react-native';
 
-import Highlighter from './SyntaxHighlight'
-import { Provider, styl } from '../styl'
+import Highlighter from './SyntaxHighlight';
+import {Provider, styl} from '../styl';
 
 /**
  * Pieces
@@ -12,45 +12,47 @@ const Title = styl(Text)({
   fontWeight: '700',
   paddingTop: 32,
   paddingHorizontal: 16,
-})
+});
 
-const DynamicText = styl(Text)<{ color: string }>(({ props }) => ({
+const DynamicText = styl(Text)<{color: string}>(({props}) => ({
   padding: 16,
   color: props.color,
-}))
+}));
 
-const Theme: React.FC = ({ children }) => (
-  <Provider theme={{ primary: 'blue' }}>{children}</Provider>
-)
+const Theme: React.FC = ({children}) => (
+  <Provider theme={{primary: 'blue'}}>{children}</Provider>
+);
 
-const ColorTheme = styl(Text)(({ theme }) => ({
-  color: theme.primary,
+const ColorTheme = styl(Text)(({theme}) => ({
+  color: (theme as any).primary,
   padding: 16,
-}))
+}));
 
 const BaseText = styl(Text)({
   color: 'red',
-})
+});
 
 const ExtendedText = styl(BaseText)({
   color: 'green',
   padding: 16,
-})
+});
 
 const AsComp = styl(Text)({
-  padding: 16
-})
+  padding: 16,
+});
 
 const PresetComp = styl((props) => (
   <Text ellipsizeMode="tail" numberOfLines={1} {...props} />
-))({ padding: 16 })
+))({padding: 16});
 
 const App = () => {
+  const ref = useRef();
+
   return (
     <SafeAreaView>
       <ScrollView>
         {/*  */}
-        <Title>Styling native elements</Title>
+        <Title ref={ref}>Styling native elements</Title>
         <Highlighter>
           {`const Wrapper = styl(ScrollView)({ 
   padding: 16 
@@ -125,7 +127,9 @@ const ExtendedText = styl(BaseText)({
 
         {/*  */}
         <Title>`as` prop</Title>
-        <AsComp as={TouchableOpacity}><Text>TouchableOpacity</Text></AsComp>
+        <AsComp as={TouchableOpacity}>
+          <Text>TouchableOpacity</Text>
+        </AsComp>
 
         <Highlighter>
           {`const AsComp = styl(Text)({
@@ -136,7 +140,7 @@ const ExtendedText = styl(BaseText)({
         </Highlighter>
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default App
+export default App;

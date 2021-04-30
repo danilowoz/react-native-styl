@@ -1,14 +1,15 @@
 /* eslint-disable react/display-name */
 import React, {
-  ComponentPropsWithoutRef,
   ComponentType,
   createContext,
   createElement,
   forwardRef,
+  JSXElementConstructor,
+  ReactElement,
   ReactNode,
   useContext,
 } from 'react'
-import { ViewStyle, TextStyle, ImageStyle } from 'react-native'
+import { ViewStyle, TextStyle, ImageStyle, StyleProp } from 'react-native'
 
 /**
  * Types definition
@@ -22,13 +23,18 @@ import { ViewStyle, TextStyle, ImageStyle } from 'react-native'
  * styl.d.ts
  *
  * declare module 'react-native-styl' {
- *  export interface DefaultTheme extends MyCustomTheme {}
+ *  export interface DefaultTheme {
+ *    colors: {
+ *      main: string;
+ *      secondary: string;
+ *    };
+ *  }
  * }
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type DefaultTheme = any
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface DefaultTheme {}
 
-// Style
+// Theme
 type StyleProperties = ViewStyle | TextStyle | ImageStyle
 
 type StylesWithTheme<P> = (args: {
@@ -38,11 +44,23 @@ type StylesWithTheme<P> = (args: {
 
 type Styles<P> = StylesWithTheme<P> | StyleProperties
 
-type ForwardedProps<
-  Comp extends ComponentType<unknown>,
-  Props extends object
-> = ComponentPropsWithoutRef<Comp> &
-  Props & { children?: ReactNode; as?: ComponentType<any> }
+// Props
+type DefaultProps = object & {
+  as?: ComponentType<any>
+  style?: StyleProp<StyleProperties>
+  children?: ReactNode
+}
+
+// Polymorphic
+interface Polymorphic<IntrinsicElement, OwnProps = {}> {
+  <As extends ComponentType<any>>(
+    props: As extends JSXElementConstructor<infer P>
+      ? OwnProps & { ref?: As } & { as?: As } & P
+      : IntrinsicElement extends JSXElementConstructor<infer E>
+      ? OwnProps & { ref?: IntrinsicElement } & { as?: IntrinsicElement } & E
+      : never
+  ): ReactElement | null
+}
 
 /**
  * Context
@@ -69,10 +87,19 @@ const Context = createContext({ theme: {} })
  * )
  * ```
  */
-const Provider: React.FC<{ theme: Record<string, unknown> }> = ({
-  children,
-  theme,
-}) => createElement(Context.Provider, { value: { theme }, children })
+const Provider: React.FC<{ theme: DefaultTheme }> = ({ children, theme }) =>
+  createElement(Context.Provider, { value: { theme }, children })
+
+/**
+ * useTheme
+ *
+ * Expose the `theme` as a React hook
+ */
+const useTheme = (): DefaultTheme => {
+  const { theme } = useContext(Context)
+
+  return theme
+}
 
 /**
  * styl
@@ -93,32 +120,33 @@ const Provider: React.FC<{ theme: Record<string, unknown> }> = ({
  * ```
  */
 const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
-  Props extends object = object
+  Props extends DefaultProps = DefaultProps
 >(
   stylesProp: Styles<Props>
-) => {
-  return forwardRef<unknown, ForwardedProps<Comp, Props>>(
-    function ForwardedComponent(props, ref) {
-      // Get theme from context
-      const { theme } = useContext(Context)
+): Polymorphic<Comp, Props> => {
+  return forwardRef(function ForwardedComponent(props: Props, ref) {
+    // Get theme from context
+    const { theme } = useContext(Context)
 
-      // Spread props and inline styles
-      const { style: inlineStyles = {}, as, ...restProps } = props
+    // Spread props and inline styles
+    const { style: inlineStyles = {}, as, ...restProps } = props
 
-      // Check type of argument
-      const styles =
-        typeof stylesProp === 'function'
-          ? stylesProp({ props, theme })
-          : stylesProp
+    // Check type of argument
+    const styles =
+      typeof stylesProp === 'function'
+        ? stylesProp({ props, theme })
+        : stylesProp
 
-      // Create component
-      return createElement(as || Component, {
-        ...restProps,
-        ref,
-        style: { ...styles, ...inlineStyles },
-      })
-    }
-  )
+    // Create component
+    return createElement<DefaultProps>(as || Component, {
+      ...restProps,
+      ref,
+      style: [
+        styles,
+        ...(Array.isArray(inlineStyles) ? inlineStyles : [inlineStyles]),
+      ],
+    })
+  })
 }
 
-export { styl, Provider }
+export { styl, Provider, useTheme }

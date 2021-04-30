@@ -1,4 +1,4 @@
-import { styl, Provider } from './styl'
+import { styl, Provider, DefaultTheme, useTheme } from './styl'
 
-export { styl, Provider }
+export { styl, Provider, DefaultTheme, useTheme }
 export default styl

@@ -104,7 +104,7 @@ const ThemeColorText = styl(Text)(({ theme }) => ({
 The `useTheme` hook let you access the currently active theme.
 
 ```jsx
-import { useTheme, Provider as StyleProvider } from "react-native-styl"
+import { useTheme, Provider as StyleProvider } from 'react-native-styl'
 
 const Main = ({ children }) => {
   const theme = useTheme()
@@ -113,9 +113,8 @@ const Main = ({ children }) => {
 }
 
 const App = () => {
-
   return (
-    <StyleProvider theme={{ color: { brand: "blue" }}}>
+    <StyleProvider theme={{ color: { brand: 'blue' } }}>
       <Main />
     </StyleProvider>
   )
@@ -148,7 +147,7 @@ const ExtendedText = styl(BaseText)({
 </details>
 
 <details>
-<summary><strong>`as` prop:</strong></summary>
+<summary><strong>Polymorphic elements: `as` prop</strong></summary>
 
 Render a new styled component passing a valid React component to `as` prop:
 
@@ -164,8 +163,6 @@ const Base = styl(Text)({
   <Text>TouchableOpacity</Text>
 </Base>
 ```
-
-> Typescript is not yet supported [Help is needed to implement it](https://github.com/danilowoz/react-native-styl/issues/3).
 
 </details>
 
@@ -285,6 +282,7 @@ This package was inspired by people's work on the following projects:
 - [Glamorous-native.](https://github.com/robinpowered/glamorous-native)
 
 ### Special thanks to:
+
 - [Airfordable](https://github.com/Airfordable);
 - [Significa](https://github.com/significa).
 
