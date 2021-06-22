@@ -36,6 +36,21 @@ exports[`styl props polymorphic > TouchableWithoutFeedback 1`] = `
 </Text>
 `;
 
+exports[`styl props polymorphic merge props 1`] = `
+<Text
+  style={
+    Array [
+      Object {
+        "color": "blue",
+      },
+      Object {},
+    ]
+  }
+>
+  Text
+</Text>
+`;
+
 exports[`styl props renders custom props 1`] = `
 <Text
   color="blue"
