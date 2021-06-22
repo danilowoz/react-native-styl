@@ -130,6 +130,16 @@ describe('styl', () => {
       const json = render.toJSON()
       expect(json).toMatchSnapshot()
     })
+
+    it('polymorphic merge props', () => {
+      const Title = styl(Text)<{ color?: string }>({ color: 'blue' })
+
+      const render = renderer.create(<Title>Text</Title>)
+
+      // Snapshot
+      const json = render.toJSON()
+      expect(json).toMatchSnapshot()
+    })
   })
 
   describe('theme/provider', () => {

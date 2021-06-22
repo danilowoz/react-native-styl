@@ -64,7 +64,7 @@ interface Polymorphic<
 > {
   <As extends ComponentType<any> = IntrinsicElement>(
     props: As extends JSXElementConstructor<infer AsProps>
-      ? OwnProps & { ref?: As } & { as?: As } & AsProps
+      ? DefaultProps & OwnProps & { ref?: As } & { as?: As } & AsProps
       : never
   ): ReactElement | null
 }
