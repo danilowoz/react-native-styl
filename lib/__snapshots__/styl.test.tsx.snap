@@ -36,6 +36,19 @@ exports[`styl props polymorphic > TouchableWithoutFeedback 1`] = `
 </Text>
 `;
 
+exports[`styl props polymorphic animated style props 1`] = `
+<Text
+  style={
+    Object {
+      "color": "blue",
+      "width": 0,
+    }
+  }
+>
+  Text
+</Text>
+`;
+
 exports[`styl props polymorphic merge props 1`] = `
 <Text
   style={

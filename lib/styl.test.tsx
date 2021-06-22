@@ -1,5 +1,10 @@
 import React, { useRef } from 'react'
-import { ScrollView, Text, TouchableWithoutFeedback } from 'react-native'
+import {
+  Animated,
+  ScrollView,
+  Text,
+  TouchableWithoutFeedback,
+} from 'react-native'
 import renderer, { ReactTestRendererJSON } from 'react-test-renderer'
 import { renderHook } from '@testing-library/react-hooks'
 
@@ -135,6 +140,27 @@ describe('styl', () => {
       const Title = styl(Text)<{ color?: string }>({ color: 'blue' })
 
       const render = renderer.create(<Title>Text</Title>)
+
+      // Snapshot
+      const json = render.toJSON()
+      expect(json).toMatchSnapshot()
+    })
+
+    it('polymorphic animated style props', () => {
+      // Normal
+      const TitleNormal = styl(Text)<{ color?: string }>({ color: 'blue' })
+      renderer.create(<TitleNormal style={{ width: 100 }}>Text</TitleNormal>)
+
+      // Animated
+      const TextAnimated = Animated.createAnimatedComponent(Text)
+      const TitleAnimated = styl(TextAnimated)<{ color?: string }>({
+        color: 'blue',
+      })
+      const render = renderer.create(
+        <TitleAnimated style={{ width: new Animated.Value(0) }}>
+          Text
+        </TitleAnimated>
+      )
 
       // Snapshot
       const json = render.toJSON()
