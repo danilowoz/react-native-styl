@@ -12,7 +12,7 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.10.0",
     "react": "16.11.0",
-    "react-native": "0.62.2",
+    "react-native": "0.62.3",
     "react-native-console-time-polyfill": "^1.2.1",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-syntax-highlighter": "^2.1.0"
