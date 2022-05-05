@@ -1,5 +1,11 @@
 import React, {useRef} from 'react';
-import {SafeAreaView, ScrollView, Text, TouchableOpacity} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 
 import Highlighter from './SyntaxHighlight';
 import {Provider, styl} from '../styl';
@@ -13,6 +19,27 @@ const Title = styl(Text)({
   paddingTop: 32,
   paddingHorizontal: 16,
 });
+
+const Slider = styl(ScrollView)({});
+
+const Foo = () => {
+  const setCurrentIndexByScroll = (foo: number) => {};
+
+  return (
+    <>
+      <Slider as={TouchableOpacity} onPress={() => {}} />
+      <Slider
+        onScroll={({
+          nativeEvent: {
+            contentOffset: {x},
+          },
+        }) => {
+          setCurrentIndexByScroll(x);
+        }}
+      />
+    </>
+  );
+};
 
 const DynamicText = styl(Text)<{color: string}>(({props}) => ({
   padding: 16,
@@ -127,7 +154,7 @@ const ExtendedText = styl(BaseText)({
 
         {/*  */}
         <Title>`as` prop</Title>
-        <AsComp as={TouchableOpacity}>
+        <AsComp as={TouchableOpacity} onPress={() => {}}>
           <Text>TouchableOpacity</Text>
         </AsComp>
 

@@ -1,5 +1,6 @@
 /* eslint-disable react/display-name */
 import React, {
+  ComponentProps,
   ComponentType,
   createContext,
   createElement,
@@ -55,18 +56,19 @@ type DefaultProps = object & {
   children?: ReactNode
 }
 
+type Merge<P1 = {}, P2 = {}> = Omit<P1, keyof P2> & P2
+
 /**
  * Polymorphic
  */
 interface Polymorphic<
-  IntrinsicElement extends ComponentType<any>,
+  IntrinsicElement extends JSXElementConstructor<any>,
   OwnProps = {}
 > {
-  <As extends ComponentType<any> = IntrinsicElement>(
-    props: As extends JSXElementConstructor<infer AsProps>
-      ? Omit<DefaultProps, 'style'> &
-          Omit<OwnProps, 'style'> & { ref?: As } & { as?: As } & AsProps
-      : never
+  <As extends JSXElementConstructor<any> | undefined>(
+    props: As extends JSXElementConstructor<infer E>
+      ? Merge<E, OwnProps & { as: As }>
+      : Merge<ComponentProps<IntrinsicElement>, OwnProps>
   ): ReactElement | null
 }
 
