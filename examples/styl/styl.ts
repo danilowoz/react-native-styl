@@ -58,16 +58,23 @@ type DefaultProps = object & {
 
 type Merge<P1 = {}, P2 = {}> = Omit<P1, keyof P2> & P2;
 
+type ForwardRefExoticComponent<E, OwnProps> = React.ForwardRefExoticComponent<
+  Merge<
+    E extends React.ElementType ? React.ComponentPropsWithRef<E> : never,
+    OwnProps & {as?: E}
+  >
+>;
+
 /**
  * Polymorphic
  */
 interface Polymorphic<
   IntrinsicElement extends JSXElementConstructor<any>,
   OwnProps = {},
-> {
+> extends ForwardRefExoticComponent<IntrinsicElement, OwnProps> {
   <As extends JSXElementConstructor<any> | undefined>(
     props: As extends JSXElementConstructor<infer E>
-      ? Merge<E, OwnProps & {as?: As; ref?: any}>
+      ? Merge<E, OwnProps & {as?: As; ref?: As}>
       : Merge<ComponentProps<IntrinsicElement>, OwnProps>,
   ): ReactElement | null;
 }
@@ -156,7 +163,7 @@ const styl =
           ...(Array.isArray(inlineStyles) ? inlineStyles : [inlineStyles]),
         ],
       });
-    });
+    }) as any;
   };
 
 export {styl, Provider, useTheme};

@@ -73,7 +73,7 @@ const PresetComp = styl((props) => (
 ))({padding: 16});
 
 const App = () => {
-  const ref = useRef();
+  const ref = useRef<Text>();
 
   return (
     <SafeAreaView>
