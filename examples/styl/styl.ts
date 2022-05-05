@@ -1,5 +1,6 @@
 /* eslint-disable react/display-name */
 import React, {
+  ComponentProps,
   ComponentType,
   createContext,
   createElement,
@@ -8,8 +9,8 @@ import React, {
   ReactElement,
   ReactNode,
   useContext,
-} from 'react'
-import { ViewStyle, TextStyle, ImageStyle, StyleProp } from 'react-native'
+} from 'react';
+import {ViewStyle, TextStyle, ImageStyle, StyleProp} from 'react-native';
 
 /**
  * Types definition
@@ -34,32 +35,48 @@ import { ViewStyle, TextStyle, ImageStyle, StyleProp } from 'react-native'
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DefaultTheme {}
 
-// Theme
-type StyleProperties = ViewStyle | TextStyle | ImageStyle
+/**
+ * Theme
+ */
+type StyleProperties = ViewStyle | TextStyle | ImageStyle;
 
 type StylesWithTheme<P> = (args: {
-  props: P
-  theme: DefaultTheme
-}) => StyleProperties
+  props: P;
+  theme: DefaultTheme;
+}) => StyleProperties;
 
-type Styles<P> = StylesWithTheme<P> | StyleProperties
+type Styles<P> = StylesWithTheme<P> | StyleProperties;
 
-// Props
+/**
+ * Props
+ */
 type DefaultProps = object & {
-  as?: ComponentType<any>
-  style?: StyleProp<StyleProperties>
-  children?: ReactNode
-}
+  as?: ComponentType<any>;
+  style?: StyleProp<StyleProperties>;
+  children?: ReactNode;
+};
 
-// Polymorphic
-interface Polymorphic<IntrinsicElement, OwnProps = {}> {
-  <As extends ComponentType<any>>(
-    props: As extends JSXElementConstructor<infer P>
-      ? OwnProps & { ref?: As } & { as?: As } & P
-      : IntrinsicElement extends JSXElementConstructor<infer E>
-      ? OwnProps & { ref?: IntrinsicElement } & { as?: IntrinsicElement } & E
-      : never
-  ): ReactElement | null
+type Merge<P1 = {}, P2 = {}> = Omit<P1, keyof P2> & P2;
+
+type ForwardRefExoticComponent<E, OwnProps> = React.ForwardRefExoticComponent<
+  Merge<
+    E extends React.ElementType ? React.ComponentPropsWithRef<E> : never,
+    OwnProps & {as?: E}
+  >
+>;
+
+/**
+ * Polymorphic
+ */
+interface Polymorphic<
+  IntrinsicElement extends JSXElementConstructor<any>,
+  OwnProps = {},
+> extends ForwardRefExoticComponent<IntrinsicElement, OwnProps> {
+  <As extends JSXElementConstructor<any> | undefined>(
+    props: As extends JSXElementConstructor<infer E>
+      ? Merge<E, OwnProps & {as?: As; ref?: As}>
+      : Merge<ComponentProps<IntrinsicElement>, OwnProps>,
+  ): ReactElement | null;
 }
 
 /**
@@ -70,7 +87,7 @@ interface Polymorphic<IntrinsicElement, OwnProps = {}> {
  *
  * @internal
  */
-const Context = createContext({ theme: {} })
+const Context = createContext({theme: {}});
 
 /**
  * Provider
@@ -87,8 +104,8 @@ const Context = createContext({ theme: {} })
  * )
  * ```
  */
-const Provider: React.FC<{ theme: DefaultTheme }> = ({ children, theme }) =>
-  createElement(Context.Provider, { value: { theme }, children })
+const Provider: React.FC<{theme: DefaultTheme}> = ({children, theme}) =>
+  createElement(Context.Provider, {value: {theme}, children});
 
 /**
  * useTheme
@@ -96,10 +113,10 @@ const Provider: React.FC<{ theme: DefaultTheme }> = ({ children, theme }) =>
  * Expose the `theme` as a React hook
  */
 const useTheme = (): DefaultTheme => {
-  const { theme } = useContext(Context)
+  const {theme} = useContext(Context);
 
-  return theme
-}
+  return theme;
+};
 
 /**
  * styl
@@ -119,34 +136,34 @@ const useTheme = (): DefaultTheme => {
  * const BigTitle = styl(Title)({ fontSize: 40 })
  * ```
  */
-const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
-  Props extends DefaultProps = DefaultProps
->(
-  stylesProp: Styles<Props>
-): Polymorphic<Comp, Props> => {
-  return forwardRef(function ForwardedComponent(props: Props, ref) {
-    // Get theme from context
-    const { theme } = useContext(Context)
+const styl =
+  <Comp extends ComponentType<any>>(Component: Comp) =>
+  <Props extends DefaultProps = DefaultProps>(
+    stylesProp: Styles<Props>,
+  ): Polymorphic<Comp, Props> => {
+    return forwardRef(function ForwardedComponent(props: Props, ref) {
+      // Get theme from context
+      const {theme} = useContext(Context);
 
-    // Spread props and inline styles
-    const { style: inlineStyles = {}, as, ...restProps } = props
+      // Spread props and inline styles
+      const {style: inlineStyles = {}, as, ...restProps} = props;
 
-    // Check type of argument
-    const styles =
-      typeof stylesProp === 'function'
-        ? stylesProp({ props, theme })
-        : stylesProp
+      // Check type of argument
+      const styles =
+        typeof stylesProp === 'function'
+          ? stylesProp({props, theme})
+          : stylesProp;
 
-    // Create component
-    return createElement<DefaultProps>(as || Component, {
-      ...restProps,
-      ref,
-      style: [
-        styles,
-        ...(Array.isArray(inlineStyles) ? inlineStyles : [inlineStyles]),
-      ],
-    })
-  })
-}
+      // Create component
+      return createElement<DefaultProps>(as || Component, {
+        ...restProps,
+        ref,
+        style: [
+          styles,
+          ...(Array.isArray(inlineStyles) ? inlineStyles : [inlineStyles]),
+        ],
+      });
+    }) as any;
+  };
 
-export { styl, Provider, useTheme }
+export {styl, Provider, useTheme};
