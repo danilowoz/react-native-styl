@@ -27,7 +27,7 @@ const Foo = () => {
 
   return (
     <>
-      <Slider as={TouchableOpacity} onPress={() => {}} />
+      <Slider onPress={() => {}} />
       <Slider
         onScroll={({
           nativeEvent: {

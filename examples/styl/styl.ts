@@ -35,7 +35,9 @@ import {ViewStyle, TextStyle, ImageStyle, StyleProp} from 'react-native';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DefaultTheme {}
 
-// Theme
+/**
+ * Theme
+ */
 type StyleProperties = ViewStyle | TextStyle | ImageStyle;
 
 type StylesWithTheme<P> = (args: {
@@ -45,7 +47,9 @@ type StylesWithTheme<P> = (args: {
 
 type Styles<P> = StylesWithTheme<P> | StyleProperties;
 
-// Props
+/**
+ * Props
+ */
 type DefaultProps = object & {
   as?: ComponentType<any>;
   style?: StyleProp<StyleProperties>;
@@ -54,14 +58,16 @@ type DefaultProps = object & {
 
 type Merge<P1 = {}, P2 = {}> = Omit<P1, keyof P2> & P2;
 
-// Polymorphic
+/**
+ * Polymorphic
+ */
 interface Polymorphic<
   IntrinsicElement extends JSXElementConstructor<any>,
   OwnProps = {},
 > {
   <As extends JSXElementConstructor<any> | undefined>(
     props: As extends JSXElementConstructor<infer E>
-      ? Merge<E, OwnProps & {as: As}>
+      ? Merge<E, OwnProps & {as?: As; ref?: any}>
       : Merge<ComponentProps<IntrinsicElement>, OwnProps>,
   ): ReactElement | null;
 }
