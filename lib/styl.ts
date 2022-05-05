@@ -52,7 +52,6 @@ type Styles<P> = StylesWithTheme<P> | StyleProperties
  */
 type DefaultProps = object & {
   as?: ComponentType<any>
-  style?: StyleProp<StyleProperties>
   children?: ReactNode
 }
 
@@ -146,7 +145,9 @@ const styl = <Comp extends ComponentType<any>>(Component: Comp) => <
     const { theme } = useContext(Context)
 
     // Spread props and inline styles
-    const { style: inlineStyles = {}, as, ...restProps } = props
+    const { style: inlineStyles = {}, as, ...restProps } = props as Props & {
+      style: StyleProp<StyleProperties>
+    }
 
     // Check type of argument
     const styles =
