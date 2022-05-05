@@ -67,7 +67,7 @@ interface Polymorphic<
 > {
   <As extends JSXElementConstructor<any> | undefined>(
     props: As extends JSXElementConstructor<infer E>
-      ? Merge<E, OwnProps & { as?: As; ref?: any }>
+      ? Merge<E & { ref?: As }, OwnProps & { as?: As }>
       : Merge<ComponentProps<IntrinsicElement>, OwnProps>
   ): ReactElement | null
 }
