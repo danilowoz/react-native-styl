@@ -103,7 +103,7 @@ const Context = createContext({ theme: {} })
  * )
  * ```
  */
-const Provider: React.FC<{ theme: DefaultTheme }> = ({ children, theme }) =>
+const Provider: React.FC<React.PropsWithChildren<{ theme: DefaultTheme }>> = ({ children, theme }) =>
   createElement(Context.Provider, { value: { theme }, children })
 
 /**
